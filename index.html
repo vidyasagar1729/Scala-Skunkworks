@@ -28,16 +28,18 @@
         </ul>
       </header>
       <section>
-        <h3>What is Scala?</h3>
+        <h1>Scala</h1>
 
 <p>These notes assume that the basic of programming are known are hence fast paced, it has the code linked to the same repository all the codes from basics are written in full.</p>
+
+<h2>What is Scala?</h2>
 
 <pre><code>$ cd your_repo_root/repo_name
 $ git fetch origin
 $ git checkout gh-pages
 </code></pre>
 
-<h3>simple build tool</h3>
+<h2>sbt - simple build tool</h2>
 
 <p>Its a build written in scala provides major conveniences of Scala. It provides a full language support for creating tasks. Launches REPL in project context and had a continuous command execution. Other advantages are</p>
 
@@ -49,7 +51,7 @@ $ git checkout gh-pages
 <li>External project support (list a git repository as a dependency!)</li>
 <li>Parallel task execution, including parallel test execution</li>
 <li>
-</ul><h2>Getting Started</h2>
+</ul><h3>Getting Started</h3>
 
 <p>It is now bundled with a lot of operating systems some of their commands are</p>
 
@@ -83,6 +85,45 @@ Download the sbt jar from </p>
 
 <pre><code>chmod u+x ~/bin/sbt
 </code></pre>
+
+<h3>Creating a Sample Project</h3>
+
+<p>Lets create a Simple hello world scala code as</p>
+
+<pre><code>object Hi {
+  def main(args: Array[String]) = println("Hi!")
+}
+</code></pre>
+
+<p>and a build.sbt file as</p>
+
+<pre><code>
+name := "hello"
+
+version := "1.0"
+
+scalaVersion := "2.9.1"
+
+</code></pre>
+
+<p>and running as would run the code </p>
+
+<pre><code>sbt run
+
+</code></pre>
+
+<p>Some commands with sbt are:</p>
+
+<ul>
+<li>clean Deletes all generated files (in the target directory).</li>
+<li>compile Compiles the main sources (in src/main/scala and src/main/java directories).</li>
+<li>test Compiles and runs all tests.</li>
+<li>console Starts the Scala interpreter with a classpath including the compiled sources and all dependencies. To return to sbt, type :quit, Ctrl+D (Unix), or Ctrl+Z (Windows).</li>
+<li>run * Runs the main class for the project in the same virtual machine as sbt.</li>
+<li>package Creates a jar file containing the files in src/main/resources and the classes compiled from src/main/scala and src/main/java.</li>
+<li>help  Displays detailed help for the specified command. If no command is provided, displays brief descriptions of all commands.</li>
+<li>reload Reloads the build definition (build.sbt, project/<em>.scala, project/</em>.sbt files). Needed if you change the build definition.</li>
+</ul><h3>Understanding sbt</h3>
 
 <h3>Authors and Contributors</h3>
 
