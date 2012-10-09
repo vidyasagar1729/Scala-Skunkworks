@@ -32,11 +32,240 @@
 
 <p>These notes assume that the basic of programming are known are hence fast paced, it has the code linked to the same repository all the codes from basics are written in full.</p>
 
-<h2>What is Scala?</h2>
+<h3>What/Why  Scala?</h3>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<pre><code>* Expressive
+    First-class functions
+    Closures
+* Concise
+    Type inference
+    Literal syntax for function creation
+* Java interopability
+    Can reuse java libraries
+    Can reuse java tools
+    No performance penalty
+</code></pre>
+
+<h3>Getting started with scala</h3>
+
+<pre><code>
+$ sbt console
+
+[...]
+
+Welcome to Scala version 2.8.0.final (Java HotSpot(TM) 64-Bit Server VM, Java 1.6.0_20).
+Type in expressions to have them evaluated.
+Type :help for more information.
+
+scala&gt;
+
+</code></pre>
+
+<h3>Expressions</h3>
+
+<pre><code>scala&gt; 1 + 1
+res0: Int = 2
+
+</code></pre>
+
+<p>res0 is an automated value created by interpreter and its Int, could be used further having value 2</p>
+
+<h3>Values</h3>
+
+<pre><code>scala&gt; val two = 1 + 1
+two: Int = 2
+
+</code></pre>
+
+<p>we can give the expression a name as we gave two here</p>
+
+<h3>Variables</h3>
+
+<pre><code>scala&gt; var name = "steve"
+name: java.lang.String = steve
+
+scala&gt; name = "marius"
+name: java.lang.String = marius
+
+</code></pre>
+
+<p>we provide var to define a variable and we wish so that the binding may be changed when ever required.</p>
+
+<h3>Funtions</h3>
+
+<p>we create functions by using def keyword</p>
+
+<pre><code>scala&gt; def addOne(m: Int): Int = m + 1
+addOne: (m: Int)Int
+</code></pre>
+
+<p>we can use the same functions as per the signature as</p>
+
+<pre><code>scala&gt; val three = addOne(2)
+three: Int = 3
+</code></pre>
+
+<p>A function can be also be made by using few lines </p>
+
+<pre><code>def timesTwo(i: Int): Int = {
+  println("hello world")
+  i * 2
+}
+</code></pre>
+
+<p>Functions can be created with many inputs as </p>
+
+<pre><code>scala&gt; def adder(m: Int, n: Int) = m + n
+adder: (m: Int,n: Int)Int
+</code></pre>
+
+<p>The same function may be partially used by another function by giving an underscore on one of the arguments as </p>
+
+<pre><code>scala&gt; val add2 = adder(2, _:Int)
+add2: (Int) =&gt; Int = &lt;function1&gt;
+
+scala&gt; add2(3)
+res50: Int = 5
+</code></pre>
+
+<p>Even functions may be defined by using multiple arguments and one being given in a specific funtion</p>
+
+<pre><code>scala&gt; def multiply(m: Int)(n: Int): Int = m * n
+multiply: (m: Int)(n: Int)Int
+
+scala&gt; multiply(2)(3)
+res0: Int = 6
+
+</code></pre>
+
+<pre><code>scala&gt; val timesTwo = multiply(2) _
+timesTwo: (Int) =&gt; Int = &lt;function1&gt;
+
+scala&gt; timesTwo(3)
+res1: Int = 6
+</code></pre>
+
+<p>We can also take any function with multiple arguments and curry it</p>
+
+<pre><code>scala&gt; (adder _).curried
+res1: (Int) =&gt; (Int) =&gt; Int = &lt;function1&gt;
+
+</code></pre>
+
+<p>if a function can take multiple parameters of repeated type them it can be generalised as</p>
+
+<pre><code>def capitalizeAll(args: String*) = {
+  args.map { arg =&gt;
+    arg.capitalize
+  }
+}
+</code></pre>
+
+<h3>Classes</h3>
+
+<p>Classes are objects with various methods and variables may be defined as:</p>
+
+<pre><code>scala&gt; class Calculator {
+     |   val brand: String = "HP"
+     |   def add(m: Int, n: Int): Int = m + n
+     | }
+defined class Calculator
+
+scala&gt; val calc = new Calculator
+calc: Calculator = Calculator@e75a11
+
+scala&gt; calc.add(1, 2)
+res1: Int = 3
+
+scala&gt; calc.brand
+res2: String = "HP"
+
+</code></pre>
+
+<h3>Constructor</h3>
+
+<pre><code>class Calculator(brand: String) {
+  /**
+   * A constructor.
+   */
+  val color: String = if (brand == "TI") {
+    "blue"
+  } else if (brand == "HP") {
+    "black"
+  } else {
+    "white"
+  }
+
+  // An instance method.
+  def add(m: Int, n: Int): Int = m + n
+}
+</code></pre>
+
+<p>As we could see a constructor is defined foe the state of the variables. Also we could see we have discussed two different ways we can comment in Scala.</p>
+
+<p>Also we could see that Scala is more expression based rather than statement oriented.</p>
+
+<h3>Inheritance</h3>
+
+<p>need to include this <a href="http://www.scala-lang.org/node/125">http://www.scala-lang.org/node/125</a></p>
+
+<p>a general example of Inheritance is </p>
+
+<pre><code>class ScientificCalculator(brand: String) extends Calculator(brand) {
+  def log(m: Double, base: Double) = math.log(m) / math.log(base)
+}
+</code></pre>
+
+<h3>Abstract Classes</h3>
+
+<p>We can define abstract classes too having just the method definitions but they cannot be called while defining a variable.</p>
+
+<pre><code>
+scala&gt; abstract class Shape {
+     |   def getArea():Int    // subclass should define this
+     | }
+defined class Shape
+
+scala&gt; class Circle(r: Int) extends Shape {
+     |   def getArea():Int = { r * r * 3 }
+     | }
+defined class Circle
+
+scala&gt; val s = new Shape
+&lt;console&gt;:8: error: class Shape is abstract; cannot be instantiated
+       val s = new Shape
+               ^
+
+scala&gt; val c = new Circle(2)
+c: Circle = Circle@65c0035b
+
+</code></pre>
+
+<h3>Traits</h3>
+
+<p>traits are collections of fields and behaviors that you can extend or mixin to your classes.</p>
+
+<pre><code>
+trait Car {
+  val brand: String
+}
+
+class BMW extends Car {
+  val brand = "BMW"
+}
+
+class BMW extends Car with Shiny {
+  val brand = "BMW"
+  val shineRefraction = 12
+}
+
+</code></pre>
+
+<h3>References / QA</h3>
+
+<pre><code>http://stackoverflow.com/questions/1991042/scala-traits-vs-abstract-classes
+http://stackoverflow.com/questions/2005681/difference-between-abstract-class-and-trait
+http://www.artima.com/pins1ed/traits.html#12.7
 </code></pre>
 
 <h2>sbt - simple build tool</h2>
@@ -50,7 +279,6 @@ $ git checkout gh-pages
 <li>Sub-project support (put multiple packages in one project)</li>
 <li>External project support (list a git repository as a dependency!)</li>
 <li>Parallel task execution, including parallel test execution</li>
-<li>
 </ul><h3>Getting Started</h3>
 
 <p>It is now bundled with a lot of operating systems some of their commands are</p>
